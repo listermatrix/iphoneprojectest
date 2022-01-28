@@ -6,7 +6,7 @@ use App\Events\AchievementUnlockedEvent;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
-class AchievementUnlockedLister
+class AchievementUnlockedListener
 {
     /**
      * Create the event listener.

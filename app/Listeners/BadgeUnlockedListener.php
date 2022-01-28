@@ -6,7 +6,7 @@ use App\Events\BadgeUnlockedEvent;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
-class BadgeUnlockedLister
+class BadgeUnlockedListener
 {
     /**
      * Create the event listener.
