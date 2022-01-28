@@ -2,11 +2,11 @@
 
 namespace App\Listeners;
 
-use App\Events\CommentWritten;
+use App\Events\LessonWatched;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
-class CommentLister
+class LessonListener
 {
     /**
      * Create the event listener.
@@ -21,11 +21,11 @@ class CommentLister
     /**
      * Handle the event.
      *
-     * @param  \App\Events\CommentWritten  $event
+     * @param  \App\Events\LessonWatched  $event
      * @return void
      */
-    public function handle(CommentWritten $event)
+    public function handle(LessonWatched $event)
     {
-
+        info("COMMENT WRITTEN {$event->lesson->id}");
     }
 }

@@ -2,11 +2,11 @@
 
 namespace App\Listeners;
 
-use App\Events\LessonWatched;
+use App\Events\BadgeUnlockedEvent;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
-class LessonLister
+class BadgeUnlockedLister
 {
     /**
      * Create the event listener.
@@ -21,11 +21,11 @@ class LessonLister
     /**
      * Handle the event.
      *
-     * @param  \App\Events\LessonWatched  $event
+     * @param  \App\Events\BadgeUnlockedEvent  $event
      * @return void
      */
-    public function handle(LessonWatched $event)
+    public function handle(BadgeUnlockedEvent $event)
     {
-        info("COMMENT WRITTEN {$event->lesson->id}");
+        //
     }
 }
