@@ -26,6 +26,18 @@ class AchievementUnlockedListener
      */
     public function handle(AchievementUnlockedEvent $event)
     {
-        //
+//        info("achievement unlocked name  $event->name");
+//        info("achievement unlocked by user  {$event->user->name}");
+
+
+          $user  =  $event->user;
+          $achievementCount = $user->achievements->count();
+
+
+//          $badges = Badge
+
+        info("achievement count of  $achievementCount");
+
+
     }
 }
