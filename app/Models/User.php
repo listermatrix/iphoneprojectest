@@ -80,47 +80,46 @@ class User extends Authenticatable
 
     public function availableAchievements()
     {
-        $next_available_achievements = [];
+            $next_available_achievements = [];
 
-        /** get all achievement ids unlocked by the user */
-        $achieve_ids = $this->achievements->pluck('achievement_id');
+            $lesson = Achievement::query()->where('type', 'lesson')->whereHas('userAchievement')->orderBy('count','desc')->first();
 
-        /** get the next achievement by name for  the user */
-        $lesson = $this->achievements()->whereHas('achievement',function($achievement) use ($achieve_ids){
-            $achievement->where('type', 'lesson')
-            ->whereNotIn('id',$achieve_ids);  //filter to show only unlocked achievements
-        })->latest()->first();
+            if($lesson) {
+                $next =  Achievement::query()->where('type', 'lesson')->where('count','>',$lesson->count)->orderBy('count','asc')->first();
 
-        if($lesson)
-        {
-            $next =  Achievement::query()
-                ->where([['type', 'lesson'],['count','>',$lesson->achievement->count]])
-                ->orderBy('count','asc')
-                ->first();
-
-            if($next) {
-
-                $next_available_achievements[] =$next->name;  //push achievement name to the array
+                if($next) {
+                    $next_available_achievements[] = $next->name;  //push achievement name to the array
+                }
             }
-        }
+            else {
 
+                $next =  Achievement::query()->where('type', 'lesson')->where('count','>',0)->orderBy('count','asc')->first();
 
-        /** get the next achievement for by name for the user */
-        $comment = $this->achievements()->whereHas('achievement',function($achievement) use ($achieve_ids) {
-            $achievement->where('type', 'comment')
-            ->whereNotIn('id',$achieve_ids);  //filter to show only unlocked achievements
-        })->latest()->first();
-
-        if($comment)
-        {
-            $next =  Achievement::query()->where([['type', 'comment'],['count','>',$comment->achievement->count]])
-                ->orderBy('count','asc')->first();
-
-            if($next) {
-                $next_available_achievements[] = $next->name;  //push achievement name to the array
+                if($next) {
+                    $next_available_achievements[] = $next->name;  //push achievement name to the array
+                }
             }
 
-        }
+
+            /** get the next achievement for by name for the user */
+            $comment = Achievement::query()->where('type', 'comment')->whereHas('userAchievement')->orderBy('count','desc')->first();
+
+            /** if the user has not unlocked any achievement use count of 0 and display the first available achievement**/
+            if($comment) {
+                $next =  Achievement::query()->where('type', 'comment')->where('count','>',$comment->count)->orderBy('count','asc')->first();
+
+                if($next) {
+                    $next_available_achievements[] = $next->name;  //push achievement name to the array
+                }
+            }
+            else {
+
+                $next =  Achievement::query()->where('type', 'comment')->where('count','>',0)->orderBy('count','asc')->first();
+
+                if($next) {
+                    $next_available_achievements[] = $next->name;  //push achievement name to the array
+                }
+            }
 
         return $next_available_achievements;
     }
