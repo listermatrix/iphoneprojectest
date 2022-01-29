@@ -10,4 +10,9 @@ Route::get('/users/{user}/achievements', [AchievementsController::class, 'index'
 
 
 
+Route::post('/users/comment/add', [AchievementsController::class, 'postComment']);
+Route::post('/users/watched-lesson/add', [AchievementsController::class, 'postLessonWatched']);
+
+
+
 
