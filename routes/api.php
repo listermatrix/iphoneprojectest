@@ -43,9 +43,9 @@ Route::any('lesson',function (){
     $watched = $user->watched->pluck('id')->toArray();
 
 
-    if(!in_array($LessonWatched->id,$watched)) {
+//    if(!in_array($LessonWatched->id,$watched)) {
          LessonWatched::dispatch($LessonWatched,$user);
-    }
+//    }
 
 
 });

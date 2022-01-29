@@ -28,7 +28,7 @@ class AchievementsController extends Controller
 
 
         /**  find the difference between the next badge count and the achievement of achievements **/
-        $diff = $next_badge->achievement_count ?? 0 - $achievement_count;
+        $diff = $next_badge && $next_badge->achievement_count ? $next_badge->achievement_count - $achievement_count :0;
 
         $remainder  =  $diff <= 0 ? 0 : $diff;  //get rid of negative and rather show 0
 

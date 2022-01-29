@@ -32,6 +32,9 @@ class LessonListener
         $user = $event->user;
         $watch_count  = $user->watched->count();
 
+
+
+
         $achievementQuery = Achievement::query()->where('type','lesson');
 
         if($watch_count > 0) // if lesson watched is not 0
@@ -40,10 +43,11 @@ class LessonListener
             //fetch achievement based on count of watched videos
             $achievement = $achievementQuery->where('count',$watch_count)->first();
 
+
             if($achievement)
             {
-                //create user achievement record
-                $user->achievements()->create(['achievement_id' => $achievement->id]);
+                //create user achievement record (First or Create to prevent duplicates)
+                $user->achievements()->firstOrCreate(['achievement_id' => $achievement->id]);
                 AchievementUnlockedEvent::dispatch($achievement->name,$user);
             }
         }

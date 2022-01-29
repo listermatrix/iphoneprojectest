@@ -28,12 +28,9 @@ class AchievementUnlockedListener
      */
     public function handle(AchievementUnlockedEvent $event)
     {
-//        info("achievement unlocked name  $event->name");
-//        info("achievement unlocked by user  {$event->user->name}");
 
           $user  =  $event->user;
           $achievementCount = $user->achievements->count();
-
 
           $badge = Badge::query()->where('achievement_count', $achievementCount)->first();
 
@@ -41,9 +38,10 @@ class AchievementUnlockedListener
           if($badge)
           {
               BadgeUnlockedEvent::dispatch($badge->name,$user);
+              info("User earned new badge :  $badge->name");
           }
 
-          info("achievement count of  $achievementCount");
+
 
 
     }
