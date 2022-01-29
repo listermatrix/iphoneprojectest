@@ -76,4 +76,52 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Achievement::class,'user_achievements');
     }
+
+
+    public function availableAchievements()
+    {
+        $next_available_achievements = [];
+        //get the latest lesson achievement for user
+        $lesson = $this->achievements()->whereHas('achievement',function($achievement){
+            $achievement->where('type', 'lesson');
+        })->latest()->first();
+
+        if($lesson)
+        {
+            $next =  Achievement::query()
+                ->where([['type', 'lesson'],['count','>',$lesson->achievement->count]])
+                ->orderBy('count','asc')
+                ->first();
+
+            if($next) {
+
+                $next_available_achievements[] = $next->name;
+
+            }
+        }
+
+
+
+
+
+        //get the latest comment achievement for user
+        $comment = $this->achievements()->whereHas('achievement',function($achievement){
+            $achievement->where('type', 'comment');
+        })->latest()->first();
+
+        if($comment)
+        {
+            $next =  Achievement::query()->where([['type', 'comment'],['count','>',$comment->achievement->count]])
+                ->orderBy('count','asc')->first();
+
+            if($next) {
+                $next_available_achievements[] =$next->name;
+            }
+
+        }
+
+
+
+        return $next_available_achievements;
+    }
 }
