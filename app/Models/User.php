@@ -105,9 +105,6 @@ class User extends Authenticatable
         }
 
 
-
-
-
         /** get the next achievement for by name for the user */
         $comment = $this->achievements()->whereHas('achievement',function($achievement) use ($achieve_ids) {
             $achievement->where('type', 'comment')

@@ -16,7 +16,6 @@ class AchievementsController extends Controller
 
         $next_available_achievements = $user->availableAchievements() ;
 
-
         //get current badge
 
         $achievement_count =  $user->achievements->count();
@@ -28,12 +27,10 @@ class AchievementsController extends Controller
 
 
 
-        /**  find the difference between the next badge count and the achievement of achievements
-         *
-         * **/
+        /**  find the difference between the next badge count and the achievement of achievements **/
         $diff = $next_badge->achievement_count ?? 0 - $achievement_count;
 
-        $remainder  =  $diff <= 0 ? 0 : $diff;
+        $remainder  =  $diff <= 0 ? 0 : $diff;  //get rid of negative and rather show 0
 
         return response()->json([
             'unlocked_achievements' => $achievements,
