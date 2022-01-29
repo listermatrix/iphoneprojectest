@@ -14,9 +14,7 @@ class AchievementsController extends Controller
 
         $achievements = $user->achievement()->orderBy('type')->pluck('name')->toArray(); /** get all achievement names for the user */
 
-        $next_available_achievements[] = $user->availableAchievements() ;
-
-
+        $next_available_achievements = $user->availableAchievements() ;
 
 
         //get current badge

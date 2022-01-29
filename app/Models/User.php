@@ -81,9 +81,14 @@ class User extends Authenticatable
     public function availableAchievements()
     {
         $next_available_achievements = [];
-        //get the latest lesson achievement for user
-        $lesson = $this->achievements()->whereHas('achievement',function($achievement){
-            $achievement->where('type', 'lesson');
+
+        /** get all achievement ids unlocked by the user */
+        $achieve_ids = $this->achievements->pluck('achievement_id');
+
+        /** get the next achievement by name for  the user */
+        $lesson = $this->achievements()->whereHas('achievement',function($achievement) use ($achieve_ids){
+            $achievement->where('type', 'lesson')
+            ->whereNotIn('id',$achieve_ids);  //filter to show only unlocked achievements
         })->latest()->first();
 
         if($lesson)
@@ -95,8 +100,7 @@ class User extends Authenticatable
 
             if($next) {
 
-                $next_available_achievements[] = $next->name;
-
+                $next_available_achievements[] =$next->name;  //push achievement name to the array
             }
         }
 
@@ -104,9 +108,10 @@ class User extends Authenticatable
 
 
 
-        //get the latest comment achievement for user
-        $comment = $this->achievements()->whereHas('achievement',function($achievement){
-            $achievement->where('type', 'comment');
+        /** get the next achievement for by name for the user */
+        $comment = $this->achievements()->whereHas('achievement',function($achievement) use ($achieve_ids) {
+            $achievement->where('type', 'comment')
+            ->whereNotIn('id',$achieve_ids);  //filter to show only unlocked achievements
         })->latest()->first();
 
         if($comment)
@@ -115,12 +120,10 @@ class User extends Authenticatable
                 ->orderBy('count','asc')->first();
 
             if($next) {
-                $next_available_achievements[] =$next->name;
+                $next_available_achievements[] = $next->name;  //push achievement name to the array
             }
 
         }
-
-
 
         return $next_available_achievements;
     }
