@@ -2,7 +2,9 @@
 
 namespace App\Listeners;
 
+use App\Events\AchievementUnlockedEvent;
 use App\Events\LessonWatched;
+use App\Models\Achievement;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
@@ -26,6 +28,25 @@ class LessonListener
      */
     public function handle(LessonWatched $event)
     {
-        info("COMMENT WRITTEN {$event->lesson->id}");
+        //assume the event has been fired.
+        $user = $event->user;
+        $watch_count  = $user->watched->count();
+
+        $achievementQuery = Achievement::query()->where('type','lesson');
+
+        if($watch_count > 0) // if lesson watched is not 0
+        {
+
+            //fetch achievement based on count of watched videos
+            $achievement = $achievementQuery->where('count',$watch_count)->first();
+
+            if($achievement)
+            {
+                //create user achievement record
+                $user->achievements()->create(['achievement_id' => $achievement->id]);
+                AchievementUnlockedEvent::dispatch($achievement->name,$user);
+            }
+        }
+
     }
 }

@@ -1,8 +1,12 @@
 <?php
 
 use App\Events\CommentWritten;
+use App\Events\LessonWatched;
 use App\Models\Comment;
+use App\Models\Lesson;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,5 +29,17 @@ Route::any('comment',function (){
 
     $comment =  Comment::query()->create(['user_id'=>1,'body'=>'slice of onions']);
     CommentWritten::dispatch($comment);
+
+});
+
+
+
+Route::any('lesson',function (){
+
+    $user = User::query()->find(1);
+
+    $LessonWatched = Lesson::query()->first();
+
+    LessonWatched::dispatch($LessonWatched,$user);
 
 });
