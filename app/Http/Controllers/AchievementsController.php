@@ -52,7 +52,6 @@ class AchievementsController extends Controller
            }
 
         }
-
         //get current badge
 
         $badge_count =  $user->achievements->count();
