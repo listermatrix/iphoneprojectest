@@ -40,6 +40,12 @@ Route::any('lesson',function (){
 
     $LessonWatched = Lesson::query()->first();
 
-    LessonWatched::dispatch($LessonWatched,$user);
+    $watched = $user->watched->pluck('id')->toArray();
+
+
+    if(!in_array($LessonWatched->id,$watched)) {
+         LessonWatched::dispatch($LessonWatched,$user);
+    }
+
 
 });

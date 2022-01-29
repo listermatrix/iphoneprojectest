@@ -70,4 +70,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(UserAchievement::class);
     }
+
+
+    public function achievement()
+    {
+        return $this->belongsToMany(Achievement::class,'user_achievements');
+    }
 }

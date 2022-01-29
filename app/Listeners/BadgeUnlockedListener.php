@@ -26,6 +26,6 @@ class BadgeUnlockedListener
      */
     public function handle(BadgeUnlockedEvent $event)
     {
-        info("achievement count of  $event->name");
+        info("badge  found   $event->name");
     }
 }

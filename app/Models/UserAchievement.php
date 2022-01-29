@@ -10,4 +10,10 @@ class UserAchievement extends Model
     use HasFactory;
 
     protected  $fillable = ['achievement_id'];
+
+
+    public function achievement()
+    {
+        return $this->belongsTo(Achievement::class);
+    }
 }
