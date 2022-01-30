@@ -61,8 +61,7 @@ class AchievementsController extends Controller
         $comment =  Comment::query()->create($data);
 
         CommentWritten::dispatch($comment);
-
-        return response()->json($comment);
+        return true;
 
     }
 
@@ -83,6 +82,8 @@ class AchievementsController extends Controller
             ['watched'=>true]);
 
         LessonWatched::dispatch($lesson,$user);
+
+        return true;
     }
 
 
