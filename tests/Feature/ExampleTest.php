@@ -33,4 +33,13 @@ class ExampleTest extends TestCase
         }
         );
     }
+
+    public function test_user_does_not_exist()
+    {
+        $user = 999999;
+
+        $response = $this->get("/users/{$user}/achievements");
+
+        $response->assertStatus(404);
+    }
 }
